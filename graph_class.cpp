@@ -75,6 +75,27 @@ public:
 	bool isReachable(int target, int source) {
 		bool *visited = new bool[numNodes];
 		return dfs(target,source,visited);
+//		return bfs(target,source,visited);
+	}
+
+	bool bfs(int target, int source, bool visited[]) {
+		list<int> queue;
+		queue.push_back(source);
+		while(!queue.empty())
+		{
+			int s = queue.front();
+			queue.pop_front();
+			for(list<int>::iterator it = outlist[s].begin(); it != outlist[s].end(); ++it)
+			{
+				if (*it==target) return true;
+				if(!visited[*it])
+				{
+					visited[*it] = true;
+					queue.push_back(*it);
+				}
+			}
+		}
+		return false;
 	}
 
 	bool dfs(int target, int source, bool visited[]) {
@@ -173,17 +194,17 @@ int main () {
 
 	// create the "dot" file (the graphviz representation) and png files inside working directory
 	// install graphviz from http://www.graphviz.org/
-//	g.createDotFile();
-//	createPng();
+	g.createDotFile();
+	createPng();
 
 	// test isReachable
-	cout << g.isReachable(3,0);
+//	cout << g.isReachable(3,0);
 
-//	for (int i=0; i<g.numNodes; i++) {
-//		for (int j=0; j<g.numNodes; j++) {
-//			cout << "g.isReachable(target=" << i << ",source=" << j << ")=" << g.isReachable(i, j) << endl;
-//		}
-//	}
+	for (int i=0; i<g.numNodes; i++) {
+		for (int j=0; j<g.numNodes; j++) {
+			cout << "g.isReachable(target=" << i << ",source=" << j << ")=" << g.isReachable(i, j) << endl;
+		}
+	}
 
 	return 0;
 }
